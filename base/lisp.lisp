@@ -1,3 +1,10 @@
+;
+; This is to demonstrate and play with bootstrapping a lisp from our simple
+; Python implementation. We could, for instance, implement macros here, or add
+; other powerful features.
+;
+
+
 ; This is a simple eval function--we need a way to mutate our environment to
 ; have an eval which functions similarly to the one in pyth.py.
 (label eval
