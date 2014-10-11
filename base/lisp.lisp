@@ -13,22 +13,22 @@
      ((atom expr) (get expr env))
      ((atom (car expr))
       (cond
-       ((eq (car expr) 'quote)  (cadr expr))
-       ((eq (car expr) 'eq)     (eq (eval (cadr expr) env)
+       ((eq (car expr) (quote quote))  (cadr expr))
+       ((eq (car expr) (quote eq))     (eq (eval (cadr expr) env)
                                     (eval (caddr expr) env)))
-       ((eq (car expr) 'atom)   (atom (eval (cadr expr) env)))
-       ((eq (car expr) 'car)    (car (eval (cadr expr) env)))
-       ((eq (car expr) 'cdr)    (cdr (eval (cadr expr) env)))
-       ((eq (car expr) 'cons)   (cons (eval (cadr expr) env)
+       ((eq (car expr) (quote atom))   (atom (eval (cadr expr) env)))
+       ((eq (car expr) (quote car))    (car (eval (cadr expr) env)))
+       ((eq (car expr) (quote cdr))    (cdr (eval (cadr expr) env)))
+       ((eq (car expr) (quote cons))   (cons (eval (cadr expr) env)
                                       (eval (caddr expr) env)))
-       ((eq (car expr) 'cond)   (econd (cdr expr) env))
+       ((eq (car expr) (quote cond))   (econd (cdr expr) env))
        (else                    (eval (cons (get (car expr) env)
                                             (cdr expr))
                                       env))))
-     ((eq (caar expr) 'label)
+     ((eq (caar expr) (quote label))
       (eval (cons (caddar expr) (cdr expr))
             (assoc env (cadr expr) (caddr expr))))
-     ((eq (caar expr) 'lambda)
+     ((eq (caar expr) (quote lambda))
       (eval (caddar expr)
             (assoc* env (cadar expr) (eval* (cdr expr) env)))))))
 
@@ -36,7 +36,7 @@
   (lambda (lst env)
     (cond ((car lst) (cons (eval (car lst) env)
                            (eval* (cdr lst) env)))
-          (else '()))))
+          (else (quote ())))))
 
 (label econd
   (lambda (clauses env)
@@ -50,7 +50,7 @@
 
 (label assoc
   (lambda (lst var val)
-    (cons (cons var (cons val '())) lst)))
+    (cons (cons var (cons val (quote ()))) lst)))
 
 (label assoc*
   (lambda (lst vars vals)
@@ -89,5 +89,5 @@
 
 (label not
   (lambda (e)
-    (cond (e #f)
+    (cond (e (quote ()))
           (else #t))))

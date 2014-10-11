@@ -16,7 +16,7 @@ def read_expression(tokens):
                 expression.append(read_expression(tokens))
             else:
                 expression.append(token)
-    elif token == '\'':
+    elif token == '\'': # adding a reader macro for `quote`
         return ['quote'] + [read_expression(tokens)]
     else:
         return token

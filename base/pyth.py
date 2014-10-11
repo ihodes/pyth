@@ -1,6 +1,6 @@
 def tokenize(string):
     # reversed because we want to consume a pre-order stack of tokens
-    return string.replace('(', ' ( ').replace(')', ' ) ').replace('\'', ' \' ').split()[::-1]
+    return string.replace('(', ' ( ').replace(')', ' ) ').split()[::-1]
 
 
 def read_expression(tokens):
@@ -11,13 +11,11 @@ def read_expression(tokens):
             token = tokens.pop()
             if token is ')':
                 return expression
-            elif token in ('(', '\''):
+            elif token is '(':
                 tokens.append(token)
                 expression.append(read_expression(tokens))
             else:
                 expression.append(token)
-    elif token == '\'':
-        return ['quote'] + [read_expression(tokens)]
     else:
         return token
 
